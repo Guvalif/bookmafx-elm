@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Bookmafx",
   "description": "2-Columns-Filer-like Bookmark Manager",
   "version": "1.0.0",
@@ -7,7 +7,9 @@
   "permissions": [
     "bookmarks"
   ],
-  "content_security_policy": "script-src 'self'; object-src 'none'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'"
+  },
   "chrome_url_overrides": {
     "bookmarks": "index.html"
   }

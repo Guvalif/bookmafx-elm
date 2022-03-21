@@ -9,8 +9,9 @@ import Html exposing (Html, text)
 
 type alias Model = ()
 
-init : Model
-init = ()
+init : () -> ( Model, Cmd Msg )
+init _ =
+  ( (), Cmd.none )
 
 
 -- Update
@@ -18,8 +19,9 @@ init = ()
 
 type alias Msg = Never
 
-update : Msg -> Model -> Model
-update _ model = model
+update : Msg -> Model -> ( Model, Cmd Msg )
+update _ model =
+  ( model, Cmd.none )
 
 
 -- View
@@ -29,13 +31,22 @@ view : Model -> Html Msg
 view _ = text "Lorem ipsum ..."
 
 
+-- Subscriptions
+-- ============================================================================
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+  Sub.none
+
+
 -- Application Entry Point
 -- ============================================================================
 
 main : Program () Model Msg
 main =
-  Browser.sandbox {
+  Browser.element {
     init = init,
     update = update,
-    view = view
+    view = view,
+    subscriptions = subscriptions
   }
