@@ -1,0 +1,19 @@
+{
+  "include": [ "lib/**/*" ],
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "CommonJS",
+    "outDir": "assets/js",
+    "sourceMap": false,
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true
+  }
+}

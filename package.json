@@ -1,0 +1,20 @@
+{
+  "name": "bookmafx-elm",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:ts && npm run build:elm",
+    "build:ts": "tsc",
+    "build:elm": "elm make --output=assets/js/main.js src/Main.elm"
+  },
+  "author": "Kazuyuki TAKASE",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "0.0.180",
+    "@types/elm": "^0.19.1",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "spectre.css": "^0.5.9"
+  }
+}
