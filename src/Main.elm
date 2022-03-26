@@ -2,16 +2,18 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (Html, text)
+import BookmarkNode exposing (BookmarkNode, bookmarkNodeDecoder)
+import Json.Decode exposing (Value, Error, decodeValue, errorToString)
 
 
 -- Model
 -- ============================================================================
 
-type alias Model = ()
+type alias Model = Result Error BookmarkNode
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-  ( (), Cmd.none )
+init : Value -> ( Model, Cmd Msg )
+init json =
+  ( decodeValue bookmarkNodeDecoder json, Cmd.none )
 
 
 -- Update
@@ -28,7 +30,10 @@ update _ model =
 -- ============================================================================
 
 view : Model -> Html Msg
-view _ = text "Lorem ipsum ..."
+view model =
+  case model of
+    Ok bookmarkNode -> text (.title bookmarkNode)
+    Err error -> text (errorToString error)
 
 
 -- Subscriptions
@@ -42,7 +47,7 @@ subscriptions _ =
 -- Application Entry Point
 -- ============================================================================
 
-main : Program () Model Msg
+main : Program Value Model Msg
 main =
   Browser.element {
     init = init,
