@@ -1,4 +1,4 @@
-module BookmarkNode exposing (BookmarkNode, bookmarkNodeDecoder)
+module BookmarkNode exposing (RootBookmarkNode, rootBookmarkNodeDecoder, into)
 
 import Json.Decode as D
 
@@ -12,6 +12,14 @@ type alias BookmarkNode =
 
 type Node = Node BookmarkNode
 
+into : Node -> BookmarkNode
+into node = case node of Node x -> x
+
+type alias RootBookmarkNode =
+  { bar: BookmarkNode
+  , others: BookmarkNode
+  }
+
 bookmarkNodeDecoder : D.Decoder BookmarkNode
 bookmarkNodeDecoder =
   D.map4 BookmarkNode
@@ -23,3 +31,9 @@ bookmarkNodeDecoder =
 childrenDecoder : D.Decoder Node
 childrenDecoder =
   D.map Node (D.lazy (\_ -> bookmarkNodeDecoder))
+
+rootBookmarkNodeDecoder : D.Decoder RootBookmarkNode
+rootBookmarkNodeDecoder =
+  D.map2 RootBookmarkNode
+    (D.field "bar" bookmarkNodeDecoder)
+    (D.field "others" bookmarkNodeDecoder)

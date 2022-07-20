@@ -1,19 +1,21 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, text)
-import BookmarkNode exposing (BookmarkNode, bookmarkNodeDecoder)
+import Html exposing (Html, div, li, text)
+import Html.Attributes exposing (class)
+import BookmarkNode exposing (RootBookmarkNode, rootBookmarkNodeDecoder, into)
 import Json.Decode exposing (Value, Error, decodeValue, errorToString)
+import Html exposing (ul)
 
 
 -- Model
 -- ============================================================================
 
-type alias Model = Result Error BookmarkNode
+type alias Model = Result Error RootBookmarkNode
 
 init : Value -> ( Model, Cmd Msg )
 init json =
-  ( decodeValue bookmarkNodeDecoder json, Cmd.none )
+  ( decodeValue rootBookmarkNodeDecoder json, Cmd.none )
 
 
 -- Update
@@ -32,7 +34,15 @@ update _ model =
 view : Model -> Html Msg
 view model =
   case model of
-    Ok bookmarkNode -> text (.title bookmarkNode)
+    Ok rootBookmarkNode -> 
+      div [ class "container" ]
+        [ div [ class "columns" ]
+          [ div [ class "column col-6" ]
+            [ ul [] (List.map (into >> .title >> \t -> li [] [ text t ]) (Maybe.withDefault [] (rootBookmarkNode |> .bar |> .children))) ]
+          , div [ class "column col-6" ]
+            [ ul [] (List.map (into >> .title >> \t -> li [] [ text t ]) (Maybe.withDefault [] (rootBookmarkNode |> .others |> .children))) ]
+          ]
+        ]
     Err error -> text (errorToString error)
 
 
